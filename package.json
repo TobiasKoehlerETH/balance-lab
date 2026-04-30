@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
+    "dist:win": "npm run build && electron-builder --win portable",
     "preview": "electron-vite preview",
     "rebuild": "electron-rebuild -f -w serialport",
     "postinstall": "electron-rebuild -f -w serialport",
@@ -49,7 +50,11 @@
       "node_modules/bindings/**/*",
       "node_modules/node-gyp-build/**/*"
     ],
-    "win": { "target": "nsis" },
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false,
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    },
     "mac": { "target": "dmg" },
     "linux": { "target": "AppImage" }
   }
