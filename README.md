@@ -1,6 +1,6 @@
 # Balance Lab
 
-Premium sphere-on-platform balancing simulator built with Electron, React, Three.js, and `serialport`.
+Sphere-on-platform balancing game built with Electron, React, Three.js, and `serialport`.
 
 ![Balance Lab screenshot](./screenshot.png)
 
