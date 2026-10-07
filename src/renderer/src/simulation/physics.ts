@@ -1,10 +1,12 @@
 const GRAVITY = 9.81
-const GRAVITY_SCALE = 4.0
-const FRICTION = 0.990   // velocity multiplier per fixed step
+const GRAVITY_SCALE = 5.5
+// Keep momentum longer so a late correction cannot immediately stop the sphere.
+const FRICTION = 0.997   // velocity multiplier per fixed step
 const FIXED_DT = 1 / 120
 
 /** XZ boundary at which the ball is considered to have left the platform */
-export const PLATFORM_FALL_THRESHOLD = 2.55
+// The sphere must stay fully on the 5-unit platform (half width minus radius).
+export const PLATFORM_FALL_THRESHOLD = 2.2
 
 export interface PhysicsState {
   x: number
