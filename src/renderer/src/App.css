@@ -105,6 +105,64 @@ html, body, #root {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  color: #cccccc;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.speed-control label {
+  color: #92929c;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.speed-control input {
+  appearance: none;
+  width: clamp(90px, 12vw, 154px);
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.speed-control input::-webkit-slider-runnable-track {
+  height: 2px;
+  border: none;
+  border-radius: 2px;
+  background: linear-gradient(to right, #bcbcc5 var(--range-progress), #303036 var(--range-progress));
+}
+
+.speed-control input::-webkit-slider-thumb {
+  appearance: none;
+  width: 8px;
+  height: 8px;
+  margin-top: -3px;
+  border: none;
+  border-radius: 50%;
+  background: #dddde4;
+}
+
+.speed-control input:focus-visible {
+  outline: 2px solid #bcbcc5;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.speed-control output {
+  min-width: 5ch;
+  font-variant-numeric: tabular-nums;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  color: #d8d8df;
+  text-align: right;
+}
+
 .angle-value {
   font-size: 14px;
   font-variant-numeric: tabular-nums;

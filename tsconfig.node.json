@@ -14,6 +14,7 @@
   "include": [
     "src/main/**/*",
     "src/preload/**/*",
+    "src/renderer/src/simulation/physics.ts",
     "electron.vite.config.*",
     "tests/**/*"
   ]

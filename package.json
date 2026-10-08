@@ -12,7 +12,7 @@
     "postinstall": "electron-rebuild -f -w serialport",
     "test": "vitest run",
     "lint": "eslint src --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json"
   },
   "dependencies": {
     "@serialport/parser-readline": "^12.0.0",
@@ -43,6 +43,13 @@
   "build": {
     "appId": "com.balancelab",
     "productName": "Balance Lab",
+    "directories": {
+      "output": "dist/windows"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
     "asar": true,
     "asarUnpack": [
       "node_modules/serialport/**/*",

@@ -31,6 +31,7 @@ export default function App() {
   const [roll, setRoll] = useState(0)
   const [pitch, setPitch] = useState(0)
   const [connected, setConnected] = useState(false)
+  const [rollingSpeed, setRollingSpeed] = useState(1)
   const [survivalSeconds, setSurvivalSeconds] = useState<number | null>(null)
   const [frozenTime, setFrozenTime] = useState<number | null>(null)
   const [highScores, setHighScores] = useState<number[]>([])
@@ -90,6 +91,10 @@ export default function App() {
     return () => sm.dispose()
   }, [])
 
+  useEffect(() => {
+    sceneRef.current?.setRollingSpeed(rollingSpeed)
+  }, [rollingSpeed])
+
   // Wire hardware bridge when present
   useEffect(() => {
     const api = window.balanceLab
@@ -122,6 +127,8 @@ export default function App() {
         roll={roll}
         pitch={pitch}
         connected={connected}
+        rollingSpeed={rollingSpeed}
+        onRollingSpeedChange={setRollingSpeed}
         onTare={() => api?.tareGyroscope()}
         onConnect={() => api?.connectSensor()}
         onMinimize={() => api?.minimizeWindow()}

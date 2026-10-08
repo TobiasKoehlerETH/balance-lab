@@ -4,6 +4,8 @@ interface Props {
   roll: number
   pitch: number
   connected: boolean
+  rollingSpeed: number
+  onRollingSpeedChange: (speed: number) => void
   onTare: () => void
   onConnect: () => void
   onMinimize: () => void
@@ -57,7 +59,7 @@ function ConnectIcon() {
   )
 }
 
-export default function TopBar({ roll, pitch, connected, onTare, onConnect, onMinimize, onMaximize, onClose }: Props) {
+export default function TopBar({ roll, pitch, connected, rollingSpeed, onRollingSpeedChange, onTare, onConnect, onMinimize, onMaximize, onClose }: Props) {
   return (
     <div className="top-bar">
       {/* Left cluster: status + controls */}
@@ -87,6 +89,24 @@ export default function TopBar({ roll, pitch, connected, onTare, onConnect, onMi
       </button>
 
       <div className="top-bar-spacer" />
+
+      <div className="speed-control" title="Tune the sphere’s rolling speed. Lower is easier; higher is harder.">
+        <label htmlFor="rolling-speed">Difficulty</label>
+        <input
+          id="rolling-speed"
+          type="range"
+          min={0.25}
+          max={2}
+          step={0.05}
+          value={rollingSpeed}
+          style={{ '--range-progress': `${((rollingSpeed - 0.25) / 1.75) * 100}%` } as React.CSSProperties}
+          aria-valuetext={`${rollingSpeed.toFixed(2)} times normal speed`}
+          onChange={(event) => onRollingSpeedChange(event.currentTarget.valueAsNumber)}
+        />
+        <output htmlFor="rolling-speed">{rollingSpeed.toFixed(2)}×</output>
+      </div>
+
+      <div className="top-bar-divider" />
 
       {/* Right cluster: window controls */}
       <div className="window-controls">

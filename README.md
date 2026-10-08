@@ -33,7 +33,18 @@ npm run preview
 npm run test
 npm run lint
 npm run typecheck
+npm run dist:win
 ```
+
+## Windows app
+
+Run `npm run dist:win` to build `dist/windows/Balance Lab-1.0.0-portable.exe`.
+Double-click the executable to launch the game; no installation is needed.
+
+Use **Difficulty** in the top bar to adjust the sphere from **0.25×** (easy) to **2.00×** (hard)
+while playing. **1.00×** is the original speed and the default each time the app
+opens. The slider supports dragging and arrow keys. Survival time remains in
+real seconds, and sensor tilt and respawn timing are unchanged.
 
 ## Serial Behavior
 

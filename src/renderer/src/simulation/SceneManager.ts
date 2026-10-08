@@ -36,6 +36,7 @@ export class SceneManager {
   private physics: PhysicsState
   private raf = 0
   private isDemo = true
+  private rollingSpeed = 1
 
   // Game state machine
   private gameState: GameState = 'dropping'
@@ -69,6 +70,10 @@ export class SceneManager {
 
   setDemo(demo: boolean): void {
     this.isDemo = demo
+  }
+
+  setRollingSpeed(speed: number): void {
+    this.rollingSpeed = Number.isFinite(speed) ? Math.min(2, Math.max(0.25, speed)) : 1
   }
 
   /** roll and pitch arrive in degrees (firmware millideg / 1000). Convert to radians for Three.js. */
@@ -211,7 +216,9 @@ export class SceneManager {
     switch (this.gameState) {
 
       case 'playing': {
-        stepPhysics(this.physics, rollRad, pitchRad, dt)
+        const previousX = this.physics.x
+        const previousZ = this.physics.z
+        stepPhysics(this.physics, rollRad, pitchRad, dt, this.rollingSpeed)
         const { x, z, vx, vz } = this.physics
 
         const fellOff = Math.abs(x) > PLATFORM_FALL_THRESHOLD
@@ -222,8 +229,8 @@ export class SceneManager {
           this.onStats?.(elapsed - this.survivalStart, false)
           this.lastBallX = x
           this.lastBallZ = z
-          this.lastBallVx = vx
-          this.lastBallVz = vz
+          this.lastBallVx = vx * this.rollingSpeed
+          this.lastBallVz = vz * this.rollingSpeed
           this.gameState = 'recovering'
           this.stateElapsed = 0
         } else {
@@ -234,10 +241,12 @@ export class SceneManager {
           this.onStats?.(elapsed - this.survivalStart, true)
 
           // Rolling quaternion accumulation
-          const speed = Math.sqrt(vx * vx + vz * vz)
-          if (speed > 0.001) {
-            const rollAxis = new THREE.Vector3(-vz, 0, vx).normalize()
-            const angle = (speed * dt) / SPHERE_RADIUS
+          const deltaX = x - previousX
+          const deltaZ = z - previousZ
+          const distance = Math.hypot(deltaX, deltaZ)
+          if (distance > 0) {
+            const rollAxis = new THREE.Vector3(-deltaZ, 0, deltaX).normalize()
+            const angle = distance / SPHERE_RADIUS
             const delta = new THREE.Quaternion().setFromAxisAngle(rollAxis, angle)
             this.sphereQuat.premultiply(delta)
             this.sphere.quaternion.copy(this.sphereQuat)

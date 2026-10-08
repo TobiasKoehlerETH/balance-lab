@@ -24,9 +24,11 @@ export function stepPhysics(
   state: PhysicsState,
   rollRad: number,
   pitchRad: number,
-  dt: number
+  dt: number,
+  rollingSpeed = 1
 ): void {
-  state.accumulator += dt
+  // Scale simulation time so existing momentum responds to the slider immediately.
+  state.accumulator += dt * rollingSpeed
 
   while (state.accumulator >= FIXED_DT) {
     const accelX = -Math.sin(rollRad) * GRAVITY * GRAVITY_SCALE
